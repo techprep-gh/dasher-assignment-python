@@ -10,8 +10,11 @@ the offer to one of the dispatch nodes, which take turns.
   A list plus an id-to-position map, so adding, removing and reading by position are O(1).
 - `dasher_assignment/picker.py`: `RandomDasherPicker`, a uniform random pick from the pool.
 - `dasher_assignment/router.py`: `RoundRobinRouter`, which routes each order to the
-  dispatch nodes in turn, skipping any node marked down by health checks. Nodes can be
-  added while the service runs.
+  dispatch nodes in turn, skipping nodes that are not available. Nodes can be added
+  while the service runs.
+- `dasher_assignment/availability.py`: `NodeAvailability`, each dispatch node's state,
+  `"AVAILABLE"` or `"UNAVAILABLE"`. Health checks report a state string with
+  `router.set_availability(node, state)`; `mark_down` and `mark_up` are shorthands.
 - `dasher_assignment/service.py`: `AssignmentService`, which dashers go online and
   offline through, and which assigns and completes orders.
 

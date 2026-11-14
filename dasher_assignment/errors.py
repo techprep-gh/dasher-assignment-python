@@ -32,6 +32,12 @@ class DispatchNodeAlreadyRegistered(AssignmentError):
         self.node = node
 
 
+class InvalidAvailabilityState(AssignmentError):
+    def __init__(self, state: str):
+        super().__init__(f"unknown availability state {state!r}")
+        self.state = state
+
+
 class NoHealthyDispatchNode(AssignmentError):
     def __init__(self):
         super().__init__("no healthy dispatch node")

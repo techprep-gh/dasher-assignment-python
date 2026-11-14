@@ -1,7 +1,11 @@
 import pytest
 
 from dasher_assignment import RoundRobinRouter
-from dasher_assignment.errors import DispatchNodeAlreadyRegistered, UnknownDispatchNode
+from dasher_assignment.errors import (
+    DispatchNodeAlreadyRegistered,
+    InvalidAvailabilityState,
+    UnknownDispatchNode,
+)
 
 
 def route_many(router, order, count):
@@ -65,3 +69,18 @@ def test_adding_a_known_node_is_rejected():
 
     with pytest.raises(DispatchNodeAlreadyRegistered):
         router.add_node("dispatch-1")
+
+
+def test_node_set_available_by_health_check_rejoins_the_rotation(order):
+    router = RoundRobinRouter(["dispatch-1", "dispatch-2", "dispatch-3"])
+    router.mark_down("dispatch-2")
+    router.set_availability("dispatch-2", "AVAILABLE")
+
+    assert route_many(router, order, 3) == ["dispatch-1", "dispatch-2", "dispatch-3"]
+
+
+def test_unknown_availability_state_is_rejected():
+    router = RoundRobinRouter(["dispatch-1"])
+
+    with pytest.raises(InvalidAvailabilityState):
+        router.set_availability("dispatch-1", "DOWN")
