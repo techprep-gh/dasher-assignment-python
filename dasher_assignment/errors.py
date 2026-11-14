@@ -26,6 +26,12 @@ class UnknownDispatchNode(AssignmentError):
         self.node = node
 
 
+class DispatchNodeAlreadyRegistered(AssignmentError):
+    def __init__(self, node: str):
+        super().__init__(f"dispatch node {node} is already registered")
+        self.node = node
+
+
 class NoHealthyDispatchNode(AssignmentError):
     def __init__(self):
         super().__init__("no healthy dispatch node")

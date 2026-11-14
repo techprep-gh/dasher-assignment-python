@@ -9,8 +9,9 @@ the offer to one of the dispatch nodes, which take turns.
 - `dasher_assignment/pool.py`: `AvailableDashers`, the dashers waiting for an offer.
   A list plus an id-to-position map, so adding, removing and reading by position are O(1).
 - `dasher_assignment/picker.py`: `RandomDasherPicker`, a uniform random pick from the pool.
-- `dasher_assignment/router.py`: `RoundRobinRouter`, the dispatch nodes in turn,
-  skipping any node marked down by health checks.
+- `dasher_assignment/router.py`: `RoundRobinRouter`, which routes each order to the
+  dispatch nodes in turn, skipping any node marked down by health checks. Nodes can be
+  added while the service runs.
 - `dasher_assignment/service.py`: `AssignmentService`, which dashers go online and
   offline through, and which assigns and completes orders.
 

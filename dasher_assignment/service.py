@@ -34,7 +34,7 @@ class AssignmentService:
         dasher = self._picker.pick()
         if dasher is None:
             return None
-        node = self._router.next_node()
+        node = self._router.route(order)
         self._pool.remove(dasher.id)
         assignment = Assignment(order_id=order.id, dasher_id=dasher.id, dispatch_node=node)
         self._active[order.id] = assignment
